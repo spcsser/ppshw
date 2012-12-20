@@ -6,13 +6,19 @@
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
+  , upload = require('./routes/upload')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+;
+
+require('autoloader').autoload(__dirname + '/src');
+
+
 
 var app = express();
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', ppshw.system.Config.get('http:port'));
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -29,7 +35,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.post('/upload', routes.upload);
+app.post('/file/upload', upload.upload);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

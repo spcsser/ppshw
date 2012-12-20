@@ -1,0 +1,9 @@
+{
+  "ppshw" : {
+    "application" : {
+      "upload" : {
+        "dir" : "E:\\tmp\\"
+      }
+    }
+  }
+}

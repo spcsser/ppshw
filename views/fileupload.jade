@@ -1,0 +1,4 @@
+form(action='/file/upload',method='post',target='upload_target',enctype="multipart/form-data",name='upload_form')
+  input(type='file',placeholder='Fileupload',name='upload[file]')
+  input(type='submit',value='U')
+iframe#upload_target.hidden.nosize(name='upload_target')

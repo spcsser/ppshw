@@ -1,0 +1,5 @@
+div#search
+  form(method='post',action='/search',target='search_target',accept-charset='utf8')
+    input(type='text',placeholder='Search',name='search[term]')
+    input(type='submit',value='Q')
+  iframe#search_target.hidden.nosize(name='search_target')

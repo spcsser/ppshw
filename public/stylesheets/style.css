@@ -25,6 +25,14 @@ div#menu {
   border-bottom: 2.5px solid #eee;
 }
 
+#menu_left, #menu_left * {
+  float: left;
+}
+
+#menu_right {
+  float: right;
+}
+
 .scrollable {
   overflow: auto;
 }
@@ -34,7 +42,6 @@ div#menu li.menuitem {
 }
 
 div#search {
-  float: right;
 }
 
 div#content {
@@ -97,4 +104,13 @@ div#pagelist {
 div#frontpage {
   float: left;
   width: 100%;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.nosize {
+  width: 0;
+  height: 0;
 }
