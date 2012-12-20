@@ -3,6 +3,9 @@
     "application" : {
       "upload" : {
         "dir" : "E:\\tmp\\"
+      },
+      "office" : {
+        "path" : "C:\\Program Files (x86)\\LibreOffice 3.5\\program\\soffice.exe"
       }
     }
   }
