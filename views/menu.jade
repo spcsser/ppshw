@@ -1,0 +1,9 @@
+block menu
+  div#menu
+    ul
+      each item in menuitems
+        li(class='menuitem') 
+          a(href='/'+item)= item
+    div#search
+      input(type='text',placeholder='Search')
+      input(type='button',value='Q')
