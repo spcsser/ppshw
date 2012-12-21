@@ -3,22 +3,35 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , upload = require('./routes/upload')
-  , http = require('http')
-  , path = require('path')
-;
-
 require('autoloader').autoload(__dirname + '/src');
 
+var express = require('express')
+  , http = require('http')
+  , path = require('path')
+  , config = ppshw.system.Config
+  , fs = require('fs')
+;
 
+var mongoose = require('mongoose'),
+  Schema = mongoose.Schema;
+mongoose.connect(config.get('ppshw:db'));
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log('Db connection established.');
+});
+
+var model_path = __dirname + '/model/'
+  , model_files = fs.readdirSync(model_path);
+model_files.forEach(function (file) {
+  require(model_path+'/'+file);
+});
 
 var app = express();
 
 app.configure(function(){
-  app.set('port', ppshw.system.Config.get('http:port'));
+  app.set('port', config.get('http:port'));
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -32,6 +45,11 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
+
+var routes = require('./routes')
+  , user = require('./routes/user')
+  , upload = require('./routes/upload')
+;
 
 app.get('/', routes.index);
 app.get('/users', user.list);

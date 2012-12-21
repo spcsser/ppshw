@@ -5,5 +5,5 @@ div#filetree.scrollable
         span #{key}
         ul.ft_l2
           each doc in val
-            li(class='ft_l2_entry ftype_16_' + doc.type)
+            li(class='ft_l2_entry ftype_16_' + doc.type,id=doc.digest)
               span #{doc.name}

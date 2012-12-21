@@ -5,6 +5,8 @@
 var fs=require('fs')
   , util=require('util')
   , crypto=require('crypto')
+  , mongoose=require('mongoose')
+  , File=mongoose.model('File')
 ;
 
 var FileManager = {
@@ -19,18 +21,33 @@ var FileManager = {
         }
       });
     },
-    storeFile: function(filepath,digest,ext){
+    storeFile: function(filepath,digest,ext,filename){
+      
+      File.findOne({'digest':digest},function(err, file){
+        if(file===null){
+//          file.creationDate=Date.now;
+//          file.filename.full=filename;
+//          file.save();
+//        }else{
+          file=new File({digest:digest, filename:{full:filename}, tags:'doc'});
+          file.save();
+          FileManager.doStoreFile(filepath,digest,ext);
+        }
+      });
+    },
+    doStoreFile: function(filepath,digest,ext){
       var new_filename=digest;
       var storage_path=ppshw.system.Config.get('ppshw:application:upload:dir');
-      var content_path=storage_path + digest + '_cnt'
+      var content_path=storage_path + digest + '_cnt';
       var new_path=content_path+'\\' + new_filename+'.'+ext;
+      
       fs.mkdir(content_path);
       
       fs.rename(filepath,new_path);
       if(this.isOfficeFile(ext)){
         //let's create a pdf
         this.createPdf(content_path,new_path,new_filename);
-      }
+      };
     },
     isOfficeFile : function(ext){
       switch(ext){
@@ -87,6 +104,6 @@ exports.handleUpload = function(filename, file){
   stream.addListener('close', function(){
     var digest = hash.digest('hex');
     
-    FileManager.storeFile(file.path,digest,ext);
+    FileManager.storeFile(file.path,digest,ext,filename);
   });
 };

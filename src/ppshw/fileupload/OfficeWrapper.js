@@ -21,7 +21,7 @@ process.on('message', function(message) {
   child = exec(
    cmd,
    params,
-   [],
+   options,
    function (error, stdout, stderr) {
      console.log('stdout: ' + stdout);
      console.log('stderr: ' + stderr);
@@ -30,5 +30,6 @@ process.on('message', function(message) {
      }
    }
   );
+//  child.on();
   process.send({id: message.id, data: 'some result'});
 });

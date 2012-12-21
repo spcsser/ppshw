@@ -79,10 +79,19 @@ li.ft_l1_entry {
   list-style-image: url("/images/icons/hashtag.png");
 }
 
+li.ft_l2_entry {
+  cursor: pointer;
+}
+
+li.ft_l2_entry:hover {
+  color: blue;
+}
+
 li.ft_l2_entry.ftype_16_unknown {
   list-style-position: outside;
   list-style-image: url("/images/icons/doctype/file.gif");
 }
+
 
 
 div#pagelist {
