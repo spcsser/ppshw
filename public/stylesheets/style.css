@@ -112,7 +112,12 @@ div#pagelist {
 
 div#frontpage {
   float: left;
-  width: 100%;
+}
+
+div#frontpage iframe {
+  width:60%;
+  height:80%;
+  position:absolute;
 }
 
 .hidden {

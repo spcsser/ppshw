@@ -24,8 +24,8 @@ db.once('open', function callback () {
 
 var model_path = __dirname + '/model/'
   , model_files = fs.readdirSync(model_path);
-model_files.forEach(function (file) {
-  require(model_path+'/'+file);
+model_files.forEach(function (myfile) {
+  require(model_path+'/'+myfile);
 });
 
 var app = express();
@@ -49,11 +49,13 @@ app.configure('development', function(){
 var routes = require('./routes')
   , user = require('./routes/user')
   , upload = require('./routes/upload')
+  , file = require('./routes/file')
 ;
 
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.post('/file/upload', upload.upload);
+app.get('/file/get/:type/:digest',file.get);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

@@ -1,7 +1,4 @@
-/**
- * New node file
- */
-process.on('message', function(message) {
+var run=function(process,message){
     // Process data
   var exec = require('child_process').execFile
     , child
@@ -30,6 +27,9 @@ process.on('message', function(message) {
      }
    }
   );
-//  child.on();
-  process.send({id: message.id, data: 'some result'});
-});
+  child.on('exit',function(code,signal){
+    process.send({id: message.id, data: 'Done'});
+  });
+};
+
+exports.run=run;

@@ -1,11 +1,6 @@
 FileTree={
     selectDocument:function(id){
-      $('#pagelist').removeClass('hidden');
-      $('#pagelist li').fadeOut();
-      //remove former entries
-      $('#pagelist li').remove();
-      
-      $('#pagelist li').fadeIn();
+      $('div#frontpage iframe').attr('src','/pdf.js/viewer.html?file=http://localhost:3000/file/get/pdf/'+id);
     },
 };
 
