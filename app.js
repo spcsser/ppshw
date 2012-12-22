@@ -57,9 +57,12 @@ app.get('/users', user.list);
 app.post('/file/upload', file.put);
 app.get('/file/get/:type/:digest',file.get);
 app.get('/file/remove/:digest',file.remove);
-app.get('/file/addtags/:digest/:tag', file.addTags);
-app.get('/file/removetags/:digest/:tag', file.removeTags);
 app.get('/filetree', index.filetree);
+
+app.post('/file/addtags', file.addTags);
+app.post('/file/removetags', file.removeTags);
+app.post('/file/settags/:digest/:tags',file.setTags);
+app.post('/file/gettags',file.getTags);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

@@ -73,7 +73,7 @@ exports.remove = function(req,res){
 
 exports.addTags = function(req,res){
   var digest=req.params.digest
-    , tag=req.params.tag
+    , tags=req.params.tags
   ;
   
   File.findOne({'digest':digest},function(err,file){
@@ -82,9 +82,9 @@ exports.addTags = function(req,res){
     }
 
     if(file!==null){
-      file.addTags(tag);
+      file.addTags(tags);
       file.save();
-      msg='Tags '+tag+' added to file '+digest;
+      msg='Tags '+tags+' added to file '+digest;
     }else{
       msg="File not found";
       res.status(404);
@@ -95,7 +95,7 @@ exports.addTags = function(req,res){
 
 exports.removeTags = function(req,res){
   var digest=req.params.digest
-    , tag=req.params.tag
+    , tags=req.params.tags
   ;
 
   File.findOne({'digest':digest},function(err,file){
@@ -103,13 +103,51 @@ exports.removeTags = function(req,res){
       return;
     }
     if(file!==null){
-      file.removeTags(tag);
+      file.removeTags(tags);
       file.save();
-      msg='Tags '+tag+' removed from file '+digest;
+      msg='Tags '+tags+' removed from file '+digest;
     }else{
       msg="File not found";
       res.status(404);
     }
     res.send(msg);
   });
+};
+
+exports.setTags = function(req,res){
+  var digest=req.params.digest
+    , tags=req.params.tags
+  ;
+  File.findOne({'digest':digest},function(err,file){
+    if(err){
+      return;
+    }
+    if(file!==null){
+      file.tags=tags;
+      file.save();
+      msg='Tags '+tags+' set for file '+digest;
+    }else{
+      msg="File not found";
+      res.status(404);
+    }
+    res.send(msg);
+  });
+};
+
+exports.getTags = function(req,res){
+  var digest=req.params.digest;
+  
+  File.findOne({'digest':digest},function(err,file){
+    if(err){
+      return;
+    }
+    if(file!==null){
+      msg={'file':digest,'tags':file.tags};
+    }else{
+      msg="File not found";
+      res.status(404);
+    }
+    res.send(msg);
+  });
+;
 };

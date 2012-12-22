@@ -128,3 +128,12 @@ div#frontpage iframe {
   width: 0;
   height: 0;
 }
+
+#jseditor {
+  background-color: gray;
+  left: 100px;
+  padding: 5px;
+  position: fixed;
+  top: 100px;
+  z-index: 999;
+}
