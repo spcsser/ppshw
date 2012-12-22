@@ -15,10 +15,10 @@ var FileSchema=new Schema({
     name: String, 
     extension: String
   },
-  tags: {type: [], get:getTags, set:setTags},
+  tags: {type: [], get: getTags, set: setTags},
   description: String,
   predecessor_id: {type: Schema.ObjectId, ref: 'File'},
-  creationDate: {type: Date, default: Date.now}
+  creationDate: {'type': Date, 'default': Date.now}
 });
 
 FileSchema.virtual('filename.full').get(function(){
@@ -30,6 +30,13 @@ FileSchema.virtual('filename.full').set(function(filename){
   this.filename.extension=split.pop();
   this.filename.name=split.join('.');
 });
+
+FileSchema.methods.addTag = function(tags){
+  if(typeof(tags)==='object'){
+    tags=tags.join(',');
+  }
+  this.tags+=','+tags;
+};
 
 FileSchema.virtual('type').get(function(){
   return 'unknown';

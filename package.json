@@ -1,16 +1,25 @@
 {
+  "author":{
+    "name": "Swen",
+    "url": "https://github.com/spcsser",
+    "email": "spcsser@gmail.com"
+  },
   "name": "ppshw_js",
+  "description": "ppshw - a colaborative document management system created with node.js",
   "version": "0.0.1",
+  "repository": "https://github.com/spcsser/ppshw",
   "private": true,
   "scripts": {
     "start": "node app"
   },
+  "main": "app.js",
   "dependencies": {
     "express": "3.0.4",
     "jade": "*",
     "autoloader": "*",
     "nconf": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "mime": "*"
   },
   "devDependencies": {
   }

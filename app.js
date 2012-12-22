@@ -48,14 +48,17 @@ app.configure('development', function(){
 
 var routes = require('./routes')
   , user = require('./routes/user')
-  , upload = require('./routes/upload')
   , file = require('./routes/file')
+  , index = require('./routes/index')
 ;
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.post('/file/upload', upload.upload);
+app.post('/file/upload', file.put);
 app.get('/file/get/:type/:digest',file.get);
+app.get('/file/remove/:digest',file.remove);
+app.get('/file/addtag/:digest/:tag', file.addtag);
+app.get('/filetree', index.filetree);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
