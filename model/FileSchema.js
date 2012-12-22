@@ -1,12 +1,16 @@
 var mongoose = require('mongoose') 
   , Schema = mongoose.Schema;
 
+var is_array=function(sv){
+  return Object.prototype.toString.call( sv ) === '[object Array]';
+};
+
 var getTags=function(tags){
   return tags.join(',');
 };
 
 var setTags=function(tags){
-  return tags.split(',');
+  return is_array(tags) ? tags : tags.split(',');
 };
 
 var FileSchema=new Schema({
@@ -31,11 +35,22 @@ FileSchema.virtual('filename.full').set(function(filename){
   this.filename.name=split.join('.');
 });
 
-FileSchema.methods.addTag = function(tags){
-  if(typeof(tags)==='object'){
+FileSchema.methods.addTags = function(tags){
+  if(is_array(tags)){
     tags=tags.join(',');
   }
   this.tags+=','+tags;
+};
+
+FileSchema.methods.removeTags = function(tags){
+  if(typeof(tags)=='string'){
+    tags=tags.split(',');
+  }
+  var mytags=this.tags.split(',');
+  tags.forEach(function(tag){
+    mytags.splice(mytags.indexOf(tag), 1);
+  });
+  this.tags=mytags;
 };
 
 FileSchema.virtual('type').get(function(){

@@ -57,7 +57,8 @@ app.get('/users', user.list);
 app.post('/file/upload', file.put);
 app.get('/file/get/:type/:digest',file.get);
 app.get('/file/remove/:digest',file.remove);
-app.get('/file/addtag/:digest/:tag', file.addtag);
+app.get('/file/addtags/:digest/:tag', file.addTags);
+app.get('/file/removetags/:digest/:tag', file.removeTags);
 app.get('/filetree', index.filetree);
 
 http.createServer(app).listen(app.get('port'), function(){

@@ -71,7 +71,7 @@ exports.remove = function(req,res){
   res.send('Done.');
 };
 
-exports.addtag = function(req,res){
+exports.addTags = function(req,res){
   var digest=req.params.digest
     , tag=req.params.tag
   ;
@@ -80,8 +80,36 @@ exports.addtag = function(req,res){
     if(err){
       return;
     }
-    file.addTag(tag);
-    file.save();
-    res.send('Tags '+tag+' added to file '+digest);
+
+    if(file!==null){
+      file.addTags(tag);
+      file.save();
+      msg='Tags '+tag+' added to file '+digest;
+    }else{
+      msg="File not found";
+      res.status(404);
+    }
+    res.send(msg);
+  });
+};
+
+exports.removeTags = function(req,res){
+  var digest=req.params.digest
+    , tag=req.params.tag
+  ;
+
+  File.findOne({'digest':digest},function(err,file){
+    if(err){
+      return;
+    }
+    if(file!==null){
+      file.removeTags(tag);
+      file.save();
+      msg='Tags '+tag+' removed from file '+digest;
+    }else{
+      msg="File not found";
+      res.status(404);
+    }
+    res.send(msg);
   });
 };
