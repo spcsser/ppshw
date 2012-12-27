@@ -39,6 +39,8 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
+  app.use(express.cookieParser('your secret here'));
+  app.use(express.session());
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
@@ -51,7 +53,15 @@ var routes = require('./routes')
   , file = require('./routes/file')
   , index = require('./routes/index')
 ;
+/*
+var sessionTransfer=function(req,res){
+  global.session=req.session;
+  req.next();
+};
 
+app.get('*',sessionTransfer);
+app.post('*',sessionTransfer);
+*/
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.post('/file/upload', file.put);
@@ -64,6 +74,13 @@ app.post('/file/removetags', file.removeTags);
 app.post('/file/settags/:digest/:tags',file.setTags);
 app.post('/file/gettags',file.getTags);
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
+});
+var io = require('socket.io').listen(server);
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
 });

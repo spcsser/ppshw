@@ -19,7 +19,8 @@
     "autoloader": "*",
     "nconf": "*",
     "mongoose": "*",
-    "mime": "*"
+    "mime": "*",
+    "socket.io": "*"
   },
   "devDependencies": {
   }

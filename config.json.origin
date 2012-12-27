@@ -7,6 +7,7 @@
       "office" : {
         "path" : "C:\\Program Files (x86)\\LibreOffice 3.5\\program\\soffice.exe"
       }
-    }
+    },
+    "db" : "mongodb://localhost/ppshw_db"
   }
 }
