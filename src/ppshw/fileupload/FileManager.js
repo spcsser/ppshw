@@ -94,13 +94,18 @@ var FileManager = {
     },
     createPdf : function(content_path,filepath,filename){
       var cmd=this.getConvertCommand(filepath,content_path);
-      this.addTask(cmd,officeRunner);
+      this.addTask(cmd,officeRunner,this.doneTask);
+    },
+    doneTask : function(data) {
+      var msgData={type:'convert',status:'done',msg:data};
+      ppshw.system.Socket.sendMessage('file',msgData);
     },
     addTask : function(data, runner, callback) {
       console.log(runner);
       var id = this.taskId++;
       this.tasks[id] = callback;
       this.child.send({id: id, data: data, runner: runner});
+      ppshw.system.Socket.sendMessage('file',{'test':'message'});
     }
 };
 FileManager.init();

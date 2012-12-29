@@ -45,7 +45,7 @@ $pathToMongodbInstallation/mongod --dbpath $dbpath
 To start the application:
 
 ```shell
-node app.js
+node $pathToApp/app.js
 ```
 
 

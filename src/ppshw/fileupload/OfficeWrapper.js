@@ -12,8 +12,8 @@ var run=function(process,message){
         env: null }
   ;
   
-  console.log(cmd);
-  console.log(params);
+  //console.log(cmd);
+  //console.log(params);
   
   child = exec(
    cmd,
@@ -28,7 +28,7 @@ var run=function(process,message){
    }
   );
   child.on('exit',function(code,signal){
-    process.send({id: message.id, data: 'Done'});
+    process.send({id: message.id, data: 'Converting to pdf'});
   });
 };
 
