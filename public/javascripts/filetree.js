@@ -5,16 +5,20 @@ FileTree={
     showTagMenu:function(elem){
       console.log(elem);
     },
+    initLinks:function(){
+      $('.ft_l2_entry')
+        .live('click',function(e){
+          FileTree.selectDocument($(this).attr('id'));
+        })
+        .find('.tagBtn')
+        .live('click', function(e){
+          e.stopPropagation();
+          FileTree.showTagMenu($(this));
+        })
+      ;
+    },
 };
 
 $(document).ready(function(event){
-  $('.ft_l2_entry')
-    .on('click',function(e){
-      FileTree.selectDocument($(this).attr('id'));
-    })
-    .find('.tagBtn')
-    .on('click', function(e){
-      e.stopPropagation();
-      FileTree.showTagMenu($(this));
-    });
+  FileTree.initLinks();
 });
