@@ -8,12 +8,12 @@ var fs=require('fs')
   , mongoose=require('mongoose')
   , File=mongoose.model('File')
   , officeRunner=__dirname+'/OfficeWrapper.js'
-  , pdfjsRunner=__dirname+'/pdf_jsWrapper.js'
+  , pdfjsRunner=__dirname+'/Pdf_jsWrapper.js'
 ;
 
 var FileManager = {
     init : function(){
-      this.child = require('child_process').fork(__dirname+"/childprocess.js");
+      this.child = require('child_process').fork(__dirname+"/Childprocess.js");
       this.taskId = 0;
       this.tasks = {};
       this.child.on('message', function(message) {
