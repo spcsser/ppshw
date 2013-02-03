@@ -22,7 +22,9 @@ var FileSchema=new Schema({
   tags: {type: [], get: getTags, set: setTags},
   description: String,
   predecessor_id: {type: Schema.ObjectId, ref: 'File'},
-  creationDate: {'type': Date, 'default': Date.now}
+  creationDate: {'type': Date, 'default': Date.now},
+  url: String,
+  type: String
 });
 
 FileSchema.virtual('filename.full').get(function(){
@@ -53,16 +55,8 @@ FileSchema.methods.removeTags = function(tags){
   this.tags=mytags;
 };
 
-FileSchema.virtual('type').get(function(){
-  return 'unknown';
-});
-
 FileSchema.virtual('name').get(function(){
   return this.filename.name;
-});
-
-FileSchema.path('digest').validate(function (digest){
-  return digest.length != 65;
 });
 
 mongoose.model('File',FileSchema);

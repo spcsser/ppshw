@@ -20,7 +20,8 @@
     "nconf": "*",
     "mongoose": "*",
     "mime": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+    "async": "*"
   },
   "devDependencies": {
   }

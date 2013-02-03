@@ -64,3 +64,10 @@ To run your application with "hot code" replace start it with:
 ```shell
 hotnode $pathToApp/app.js
 ```
+
+ToDos
+-----------
+
+* Setup the LibreOffice instance to be running as service in background and send conversion requests there (instead of calling/instantiating by upload)
+* improve layout
+* use pdf.js to create preview & page images from pdfs

@@ -1,0 +1,26 @@
+extends ../layout
+
+block header
+  script(src='/javascripts/admin/settings.js')
+
+block content
+  h2 Add new pad
+  ul
+    li
+      input(type="text",name="epl_url",placeholder="epl URL")
+      input(type="text",name="epl_name",placeholder="Name")
+      input(type="text",name="epl_apikey",placeholder="API key")
+      input(type="button",name="send",value="Add",onclick="AdminSettings.addEplInstance();")
+  h2 List of known pads
+  table
+    thead
+      tr
+        th URL
+        th Name
+        th apikey 
+    tbody
+    each pi in eplis
+      tr
+        td #{pi.url}
+        td #{pi.name}
+        td #{pi.apiKey}

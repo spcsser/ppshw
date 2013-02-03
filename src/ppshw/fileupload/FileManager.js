@@ -31,7 +31,7 @@ var FileManager = {
 //          file.filename.full=filename;
 //          file.save();
         }else{
-          file=new File({digest:digest, filename:{full:filename}, tags:'doc'});
+          file=new File({digest:digest, filename:{full:filename}, type:});
           file.save();
         }
         FileManager.doStoreFile(filepath,digest,ext);
@@ -129,3 +129,12 @@ exports.handleUpload = function(filename, file){
     FileManager.storeFile(file.path,digest,ext,filename);
   });
 };
+
+//type file File expects digest, filename
+exports.TYPE_FILE = "type_file";
+//type pad File url, filename (extension empty)
+exports.TYPE_EPL = "type_pad";
+//type webpage File expects url, filename (page title as name, extension should be html) 
+exports.TYPE_WEBPAGE = "type_webpage";
+//type webdoc File expects url, filename
+exports.TYPE_WEBDOC = "type_webdoc";

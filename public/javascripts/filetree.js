@@ -3,12 +3,11 @@ FileTree={
   getBaseUrl:function(){
     if(this.baseUrl===null){
         var bUrl=window.location.href;
-        console.log(bUrl);
         this.baseUrl=bUrl;
     }
     return this.baseUrl;
   },
-  selectDocument:function(id){
+  openDocument:function(id){
       $('div#frontpage iframe').attr('src','/pdf.js/viewer.html?file='+this.getBaseUrl()+'file/get/pdf/'+id);
   },
   showTagMenu:function(elem){
@@ -18,7 +17,7 @@ FileTree={
     this.getBaseUrl();
     $('.ft_l2_entry')
       .live('click',function(e){
-        FileTree.selectDocument($(this).attr('id'));
+        FileTree.openDocument($(this).attr('id'));
       })
       .find('.tagBtn')
       .live('click', function(e){

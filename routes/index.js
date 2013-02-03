@@ -5,11 +5,12 @@
 
 var mongoose = require('mongoose')
   , File = mongoose.model('File')
+  , PadManager = ppshw.epl.PadManager
 ;
 
 var props={
     title:'Index',
-    menuitems:[]
+    menuitems:{'Settings':'admin/settings'}
 };
 
 var render= function(res,file){
@@ -35,7 +36,8 @@ var complete = function(res,file){
 
 var createFileTree=function(res,file){
   props.tagsandfiles={};
-  setCompleteCount(2);
+  props.etherpads={};
+  setCompleteCount(3);
   File.find({'tags':[]},function(err,files){
     if(err){
       return;
@@ -59,6 +61,9 @@ var createFileTree=function(res,file){
       });
     });
     complete(res,file);
+  });
+  PadManager.getPads(function(pads){
+    
   });
 };
 

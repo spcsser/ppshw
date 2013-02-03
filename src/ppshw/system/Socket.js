@@ -9,3 +9,7 @@ exports.init = init;
 exports.sendMessage = function(eventname, data){
   socketio.sockets.emit(eventname, data);
 };
+
+exports.getInstance = function(){
+  return socketio;
+};

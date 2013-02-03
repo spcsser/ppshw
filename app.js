@@ -49,9 +49,9 @@ app.configure('development', function(){
 });
 
 var routes = require('./routes')
-  , user = require('./routes/user')
   , file = require('./routes/file')
   , index = require('./routes/index')
+  , adminSettings = require('./routes/admin/settings')
 ;
 /*
 var sessionTransfer=function(req,res){
@@ -63,7 +63,6 @@ app.get('*',sessionTransfer);
 app.post('*',sessionTransfer);
 */
 app.get('/', routes.index);
-app.get('/users', user.list);
 app.post('/file/upload', file.put);
 app.get('/file/get/:type/:digest',file.get);
 app.get('/file/remove/:digest',file.remove);
@@ -73,6 +72,8 @@ app.post('/file/addtags', file.addTags);
 app.post('/file/removetags', file.removeTags);
 app.post('/file/settags/:digest/:tags',file.setTags);
 app.post('/file/gettags',file.getTags);
+
+app.get('/admin/settings', adminSettings.index);
 
 var server = http.createServer(app)
   , io = require('socket.io').listen(server);

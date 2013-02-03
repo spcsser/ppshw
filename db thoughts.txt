@@ -1,0 +1,18 @@
+ - Uploaded Documents (internal stored)
+   - digest(id), url (if from web), filename & extension, creationDate, predecessor (former doc)
+ - Web Documents (published somewhere on the web) //could require converting to uploaded doc if non pdf
+   - url(id), filename & extension, creationDate
+ - Web Sites (html docs)
+   - url(id), title, creationDate
+ - Etherpad 
+   - url(id) [epl instance + pad name], creationDate
+   - epl instance: url, apiKey   
+   
+Document:
+ - digest(id), filename, extension, creationdate, predecessor, tags, description
+ 
+Web Resource:
+ - url(id), type{epl | html | doc}, 
+ 
+EPL Instance:
+ - url, name, apiKey

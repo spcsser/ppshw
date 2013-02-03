@@ -2,10 +2,9 @@ block menu
   div#menu
     div#menu_left
       include fileupload
-      
       ul
-        each item in menuitems
+        each url,item in menuitems
           li(class='menuitem') 
-            a(href='/'+item)= item
+            a(href='/'+url)= item
     div#menu_right
-      include search
+      
