@@ -20,6 +20,7 @@ FileTree={
     ;
     
     editor.find('form').attr('action','#');
+    editor.find('input[name="editor_input"]').val('');
     
     editor.removeClass('hidden').offset(elem.offset());
     

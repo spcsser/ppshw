@@ -135,7 +135,7 @@ exports.setTags = function(req,res){
 };
 
 exports.getTags = function(req,res){
-  var digest=req.params.digest;
+  var digest=req.body.digest;
   
   File.findOne({'digest':digest},function(err,file){
     if(err){
