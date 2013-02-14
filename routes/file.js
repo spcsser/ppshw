@@ -25,8 +25,8 @@ var getPath = function(digest,filetype){
 };
 
 exports.get=function(req,res){
-  var digest=req.params.digest
-    , filetype=req.params.type
+  var digest=req.body.digest
+    , filetype=req.body.type
   ;
   
   path=getPath(digest, filetype);
@@ -56,7 +56,7 @@ exports.get=function(req,res){
 };
 
 exports.remove = function(req,res){
-  var digest=req.params.digest;
+  var digest=req.body.digest;
   
   path=getPath(digest);
   File.where('digest').equals(digest).remove(function(err){
@@ -72,8 +72,8 @@ exports.remove = function(req,res){
 };
 
 exports.addTags = function(req,res){
-  var digest=req.params.digest
-    , tags=req.params.tags
+  var digest=req.body.digest
+    , tags=req.body.tags
   ;
   
   File.findOne({'digest':digest},function(err,file){
@@ -94,8 +94,8 @@ exports.addTags = function(req,res){
 };
 
 exports.removeTags = function(req,res){
-  var digest=req.params.digest
-    , tags=req.params.tags
+  var digest=req.body.digest
+    , tags=req.body.tags
   ;
 
   File.findOne({'digest':digest},function(err,file){
@@ -118,9 +118,6 @@ exports.setTags = function(req,res){
   var digest=req.body.digest
     , tags=req.body.tags
   ;
-  
-  console.info("Updating tags for digest: ",digest," with tags ", tags);
-  
   File.findOne({digest:digest},function(err,file){
     if(file!==null && !err){
       file.tags=tags;
@@ -137,11 +134,8 @@ exports.setTags = function(req,res){
 exports.getTags = function(req,res){
   var digest=req.body.digest;
   
-  File.findOne({'digest':digest},function(err,file){
-    if(err){
-      return;
-    }
-    if(file!==null){
+  File.findOne({digest:digest},function(err,file){
+    if(!err && file!==null){
       msg={'file':digest,'tags':file.tags};
     }else{
       msg="File not found";

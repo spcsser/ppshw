@@ -20,9 +20,14 @@ FileTree={
     ;
     
     editor.find('form').attr('action','#');
-    editor.find('input[name="editor_input"]').val('');
-    
-    editor.removeClass('hidden').offset(elem.offset());
+    $.post('/file/gettags',{digest:digest},function(data,textStatus,jqXHR){
+      var val='';
+      if(data!=null && data.tags!=null){
+        val=data.tags;
+      }
+      editor.find('input[name="editor_input"]').val(val);      
+      editor.removeClass('hidden').offset(elem.offset());
+    });
     
     var submitHandler=function(e){
       e.preventDefault();
@@ -34,8 +39,8 @@ FileTree={
       });
     };
     
-    editor.find('form, input').on('submit',submitHandler);
-    editor.find('input[type=submit]').on('click',submitHandler);
+    editor.find('form, input').unbind('submit').on('submit',submitHandler);
+    editor.find('input[type=submit]').unbind('submit').on('click',submitHandler);
   },
   initLinks:function(){
     this.getBaseUrl();

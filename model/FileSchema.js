@@ -10,7 +10,7 @@ var getTags=function(tags){
 };
 
 var setTags=function(tags){
-  return is_array(tags) ? tags : tags.split(',');
+  return is_array(tags) ? tags : tags.replace(/ +,|, +/g,',').split(',');
 };
 
 var FileSchema=new Schema({
