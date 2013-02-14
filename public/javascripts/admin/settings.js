@@ -4,7 +4,7 @@ AdminSettings.addEplInstance = function(){
   var data={};
   data.url=$('input[name=epl_url]').val();
   data.name=$('input[name=epl_name]').val();
-  data.apikey=$('input[name=epl_apikey]').val();
+  data.apiKey=$('input[name=epl_apikey]').val();
   this.socket.emit('addEplInstance',data);
 };
 

@@ -42,7 +42,9 @@ var createFileTree=function(res,file){
     if(err){
       return;
     }
-    props.tagsandfiles['No Tag']=files;
+    if(files!=null && files.length>0){
+      props.tagsandfiles['No Tag']=files;
+    }
     complete(res,file);
   });
   
@@ -63,7 +65,12 @@ var createFileTree=function(res,file){
     complete(res,file);
   });
   PadManager.getPads(function(pads){
-    
+    Object.keys(pads).forEach(function(url){
+      var pad=pads[url];
+      pad.url=url;
+      props.etherpads[pad.name]=pad;
+    });
+    complete(res,file);
   });
 };
 

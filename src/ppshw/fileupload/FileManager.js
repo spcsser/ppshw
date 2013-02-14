@@ -31,7 +31,7 @@ var FileManager = {
 //          file.filename.full=filename;
 //          file.save();
         }else{
-          file=new File({digest:digest, filename:{full:filename}, type:});
+          file=new File({digest:digest, filename:{full:filename}, type:'doc'});
           file.save();
         }
         FileManager.doStoreFile(filepath,digest,ext);

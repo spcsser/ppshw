@@ -70,7 +70,7 @@ app.get('/filetree', index.filetree);
 
 app.post('/file/addtags', file.addTags);
 app.post('/file/removetags', file.removeTags);
-app.post('/file/settags/:digest/:tags',file.setTags);
+app.post('/file/settags',file.setTags);
 app.post('/file/gettags',file.getTags);
 
 app.get('/admin/settings', adminSettings.index);

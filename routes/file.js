@@ -115,14 +115,14 @@ exports.removeTags = function(req,res){
 };
 
 exports.setTags = function(req,res){
-  var digest=req.params.digest
-    , tags=req.params.tags
+  var digest=req.body.digest
+    , tags=req.body.tags
   ;
-  File.findOne({'digest':digest},function(err,file){
-    if(err){
-      return;
-    }
-    if(file!==null){
+  
+  console.info("Updating tags for digest: ",digest," with tags ", tags);
+  
+  File.findOne({digest:digest},function(err,file){
+    if(file!==null && !err){
       file.tags=tags;
       file.save();
       msg='Tags '+tags+' set for file '+digest;
@@ -149,5 +149,4 @@ exports.getTags = function(req,res){
     }
     res.send(msg);
   });
-;
 };

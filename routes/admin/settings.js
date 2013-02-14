@@ -27,9 +27,16 @@ var init = function(){
 
     socket.on("addEplInstance", function(epli){
       if(isEplIDataCorrect(epli)){
-        //epli should have url, name, apikey
-        var ep=new Etherpad(epli);
-        ep.save();
+        //epli should have url, name, apiKey
+        Etherpad.findOne({url:epli.url},function(err, ep){
+            if(err || ep==null){
+              ep=new Etherpad(epli);
+            }else{
+              ep.name=epli.name;
+              ep.apiKey=epli.apiKey;
+            }
+            ep.save();
+        });
       }else{
         //issue an error
       }
