@@ -13,6 +13,7 @@ The following dependencies should be met, for how to install or start see below:
  * .. other dependencies (installed via `package.json`)
 * mongodb
 * LibreOffice/OpenOffice (required to convert the files to pdf or other formats [not yet implemented])
+* ImageMagick (required to create preview images of the documents)
 
 First step: install express globally (requires node.js to be installed).
 
