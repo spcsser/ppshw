@@ -33,10 +33,14 @@ exports.get=function(req,res){
   
   File.findOne({'digest':digest}).exec(function(err,file){
     if(err){
+      res.status(500).send('Internal server error.');
       return;
-    }
-    
-    if(file!==null && fs.existsSync(path)){
+    }else if(file==null){
+      res.status(404).send('File not found in database.');
+      return;
+    }else if(!fs.existsSync(path)){
+      res.status(404).send('File not found');
+    }else{
       var filename=file.filename.name;
       var stat = fs.statSync(path);
     
@@ -49,8 +53,6 @@ exports.get=function(req,res){
       var readStream = fs.createReadStream(path);
       // We replaced all the event handlers with a simple call to util.pump()
       util.pump(readStream, res);
-    }else{
-      res.status(404).send('File not found');
     }
   });
 };

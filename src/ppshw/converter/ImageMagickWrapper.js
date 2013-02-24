@@ -1,7 +1,9 @@
 /**
  * New node file
  */
-var convertType;
+var convertType
+ , config=require(__dirname+'/../system/Config.js')
+;
 
 var PARAM_CONVERT_PAGE="PARAM_CONVERT_PAGE"
   , PARAM_CONVERT_THUMBNAIL="PARAM_CONVERT_THUMBNAIL"

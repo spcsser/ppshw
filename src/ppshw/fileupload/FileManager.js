@@ -11,7 +11,7 @@ var fs=require('fs')
 
 var FileManager = {
     init : function(){
-      this.child = require('child_process').fork(__dirname+"/Childprocess.js");
+      this.child = require('child_process').fork('src/ppshw/system/Childprocess.js');
       this.taskId = 0;
       this.tasks = {};
       this.child.on('message', function(message) {
@@ -85,6 +85,12 @@ var FileManager = {
           return false;
       }
     },
+    addTask : function(data, runner, callback) {
+      console.log(runner);
+      var id = FileManager.taskId++;
+      FileManager.tasks[id] = callback;
+      FileManager.child.send({id: id, data: data, runner: runner});
+    }
 };
 FileManager.init();
 
@@ -116,3 +122,4 @@ exports.TYPE_EPL = "type_pad";
 exports.TYPE_WEBPAGE = "type_webpage";
 //type webdoc File expects url, filename
 exports.TYPE_WEBDOC = "type_webdoc";
+exports.addTask = FileManager.addTask;
