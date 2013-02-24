@@ -7,8 +7,6 @@ var fs=require('fs')
   , crypto=require('crypto')
   , mongoose=require('mongoose')
   , File=mongoose.model('File')
-  , officeRunner=__dirname+'/OfficeWrapper.js'
-  , pdfjsRunner=__dirname+'/Pdf_jsWrapper.js'
 ;
 
 var FileManager = {
@@ -48,20 +46,23 @@ var FileManager = {
         fs.mkdir(content_path);
       
         fs.rename(filepath,new_path);
-        if(this.isOfficeFile(ext)){
-        //let's create a pdf
+        if(this.isConvertableFile(ext)){
+          //let's create a pdf
           this.createPdf(content_path,new_path,new_filename);
-          this.createPreview(content_path);
+          this.createImages(content_path,digest);
         }
       }
     },
-    createPreview : function(content_path){
-      
+    createPdf:function(content_path, new_path, filename){
+      ppshw.converter.ConverterHandler.createPdf(content_path, new_path, filename);
+    },
+    createImages:function(content_path,digest){
+      ppshw.converter.ConverterHandler.createImages(content_path,digest);
     },
     isPdfFile : function(ext){
       return ext==='pdf';
     },
-    isOfficeFile : function(ext){
+    isConvertableFile : function(ext){
       switch(ext){
       case 'doc':
       case 'docx':
@@ -84,29 +85,6 @@ var FileManager = {
           return false;
       }
     },
-    getConvertCommand : function(inputfile,outputpath) {
-      var cmd={
-        cmd:ppshw.system.Config.get('ppshw:application:office:path'),
-        params:['--headless','--convert-to','pdf','"'+inputfile+'"','--outdir','"'+outputpath+'"']
-      };
-      
-      return cmd;
-    },
-    createPdf : function(content_path,filepath,filename){
-      var cmd=this.getConvertCommand(filepath,content_path);
-      this.addTask(cmd,officeRunner,this.doneTask);
-    },
-    doneTask : function(data) {
-      var msgData={type:'convert',status:'done',msg:data};
-      ppshw.system.Socket.sendMessage('file',msgData);
-    },
-    addTask : function(data, runner, callback) {
-      console.log(runner);
-      var id = this.taskId++;
-      this.tasks[id] = callback;
-      this.child.send({id: id, data: data, runner: runner});
-      ppshw.system.Socket.sendMessage('file',{'test':'message'});
-    }
 };
 FileManager.init();
 
