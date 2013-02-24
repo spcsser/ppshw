@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+
+     Mediacenter: Compress JavaScript and CSS    
+                   
+     @author $Author: rutarh $
+     @version $Id: deploy_core.xml 515 2010-05-31 12:37:14Z rutarh $
+                                                                     
+     ====================================================================== -->
+<project name="compressAssets" basedir=".." default="compressAllAssets">
+ 
+	<description>
+		Mediacenter: Compress JavaScript and CSS
+    </description>
+
+	<property name="build" value="${basedir}/build"/>
+        <xmlproperty semanticAttributes="true" file="${build}/compressedAssets.xml"/>
+
+   	<target name="compressAllAssets">
+
+		<antcall target="compressJavascript"/>
+		<antcall target="compressCSS"/>
+
+   	</target>
+
+   	<target name="compressJavascript">
+
+		<echo message="JavaScript Source Files to be minified:"/>
+		<echo message="${compress.jsSourceFiles}"/>
+		<echo message="JavaScript Source Files to also be cleaned:"/>
+		<echo message="${compress.jsSourceFilesToClean}"/>
+
+		<!-- create temporary directory for processing -->
+   		<property name="compress.work" value="${basedir}/build/work"/>
+  
+  		<!-- make sure to cleanup before starting -->
+  		<delete dir="${compress.work}"/>
+   		<mkdir dir="${compress.work}"/>
+
+		<!-- copy files to be cleaned to temp dir -->
+   		<copy todir="${compress.work}">
+			<filelist dir="${compress.sourceBasedir}"
+				files="${compress.jsSourceFilesToClean}"
+			/>
+   		</copy>
+
+		<!-- REMOVE LOGGING -->
+		<!-- all lines containing log. -->
+   		<replaceregexp
+			encoding="UTF8"
+			match="[\s?]log\..*"
+			replace=""
+			byline="true">
+	   		<fileset dir="${compress.work}" includes="**/*"/>
+   		</replaceregexp>
+
+   		<!-- all lines containing console. -->
+   		<replaceregexp
+			encoding="UTF8"
+			match="[\s?]console\..*"
+			replace=""
+			byline="true">
+	   		<fileset dir="${compress.work}" includes="**/*"/>
+   		</replaceregexp>
+
+   		<!-- now concatenate all files --> 
+  		<property name="compress.concatenatedJS" value="${compress.work}/concatenated.js"/>
+        <echo message="Concatenating files...." />
+   		<concat fixlastline="true" eol="unix" destfile="${compress.concatenatedJS}">
+
+   			<filelist dir="${compress.sourceBasedir}"
+   				files="${compress.jsSourceFiles}"
+   			/>
+			<filelist dir="${compress.work}"
+				files="${compress.jsSourceFilesToClean}"
+			/>
+
+	   		<fileset dir="${compress.work}" includes="*"/>
+   		</concat>
+  		<length file="${compress.concatenatedJS}" property="compress.concatenatedSize" />
+
+
+		<!-- remove "sticky" comments /*! used in JS libs -->
+        <echo message="Removing sticky comments..." />
+   		<replaceregexp
+			encoding="UTF8"
+			match="\/\*\!"
+			replace="/*"
+			byline="false"
+			file="${compress.concatenatedJS}"
+		>
+   		</replaceregexp>
+   		
+   		
+  		<!-- compress the resulting concatenated file -->
+        <echo message="Compressing JavaScript..." />
+   		<java
+   			jar="${build}/yuicompressor-2.4.2.jar"
+   			fork="true"
+   			failonerror="true"
+   			maxmemory="128m"
+   		>
+ 	  		<arg line="--charset UTF8"/>
+ 	 		<arg line="--line-break 200"/>
+			<arg line="-o ${compress.sourceBasedir}/${compress.jsCompressedDestinationFileName}"/>
+	   		<arg value="${compress.concatenatedJS}"/>
+   		</java>
+  		<length file="${compress.sourceBasedir}/${compress.jsCompressedDestinationFileName}" property="compress.compressedDestinationSize" />
+
+   		<!-- cleanup. -->
+ 		<delete dir="${compress.work}"/>
+
+   		<echo message="Compressed Source files from size ${compress.concatenatedSize} to ${compress.compressedDestinationSize}." />
+
+   	</target>
+   	
+   	
+   	
+   	<target name="compressCSS">
+
+		<!-- concatenate all files  --> 
+  		<property name="compress.concatenatedCSS" value="${build}/concatenated.css"/>
+        <echo message="Concatenating files...." />
+   		<concat destfile="${compress.concatenatedCSS}">
+   			<filelist dir="${compress.sourceBasedir}"
+   				files="${compress.cssSourceFiles}"
+   			/>
+   		</concat>
+  		<length file="${compress.concatenatedCSS}" property="compress.concatenatedSize" />
+
+       <echo message="Compressing CSS..." />
+   		<java
+   			jar="${build}/yuicompressor-2.4.2.jar"
+   			fork="true"
+   			failonerror="true"
+   			maxmemory="128m"
+   		>
+   			<arg line="--charset UTF8"/>
+			<arg line="--type css"/>
+			<arg line="--line-break 200"/>
+			<arg line="-o ${compress.sourceBasedir}/${compress.cssCompressedDestinationFileName}"/>
+   			<arg value="${compress.concatenatedCSS}"/>
+   		</java>
+ 		<length file="${compress.sourceBasedir}/${compress.cssCompressedDestinationFileName}" property="compress.compressedDestinationSize" />
+  
+		<delete file="${compress.concatenatedCSS}"/>
+  
+   		<echo message="Compressed Source files from size ${compress.concatenatedSize} to ${compress.compressedDestinationSize}." />
+
+   	</target>
+	
+</project>
