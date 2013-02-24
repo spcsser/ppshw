@@ -2,10 +2,16 @@
   "ppshw" : {
     "application" : {
       "upload" : {
-        "dir" : "E:\\tmp\\"
+        "dir" : "/path/to/filestorage"
       },
       "office" : {
-        "path" : "C:\\Program Files (x86)\\LibreOffice 3.5\\program\\soffice.exe"
+        "path" : "/path/to/libreoffice/soffice"
+      },
+      "imagemagick":{
+        "path" : "/path/to/imagemagick/convert"
+      },
+      "etherpad-lite" : {
+        "apikey" : "secretkeyhere" 
       }
     },
     "db" : "mongodb://localhost/ppshw_db"
