@@ -16,7 +16,7 @@ var getConvertCommand = function(params){
   }else{
     console.error("Unknown convertType:",params.convertType);
   }
-}
+};
 
 var getPageConvertCommand = function(params) {
   var inputFile=params.contentPath+'/'+params.digest+'.pdf';
@@ -24,7 +24,7 @@ var getPageConvertCommand = function(params) {
   var data={
     cmd:config.get('ppshw:application:imagemagick:path'),
     //convert -adaptive-resize 100x144 -auto-orient -alpha background -antialias cv-swen_2.pdf thumbnail_%d.jpg
-    params:['-adaptive-resize','100x144','-auto-orient','-antialias',inputFile,outputFile]//'-alpha background',
+    params:['-adaptive-resize','100x144','-auto-orient','-alpha','background','-antialias',inputFile,outputFile]//'-alpha background',
   };
   return data;
 };
