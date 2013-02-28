@@ -9,9 +9,6 @@
       },
       "imagemagick":{
         "path" : "/path/to/imagemagick/convert"
-      },
-      "etherpad-lite" : {
-        "apikey" : "secretkeyhere" 
       }
     },
     "db" : "mongodb://localhost/ppshw_db"
