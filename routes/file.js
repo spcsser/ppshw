@@ -3,6 +3,7 @@ var fs=require('fs')
   , mongoose=require('mongoose')
   , File = mongoose.model('File')
   , mime = require('mime')
+  , wrench = require('wrench')
 ;
 
 exports.put=function(req,res){
@@ -66,9 +67,9 @@ exports.remove = function(req,res){
   });
   
   if(fs.existsSync(path)){
-    fs.unlink(path,function(err){
-      console.log('Done, %s',err);
-    });
+    if(wrench.rmdirSyncRecursive(path)!=0){
+      console.error('Directory could not be be removed.');
+    }
   }
   res.send('Done.');
 };

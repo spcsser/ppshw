@@ -1,5 +1,7 @@
 div#jsmenu
   div#jseditor.hidden
     form(method='post',action='')
-      input(type='text',name='editor_input')
-      input(type='submit',value='S')
+      input#editor_input(type='text',name='editor_input')
+      input#editor_submit(type='submit',value='S')
+      input#editor_delete(type='button',value='-')
+      input#editor_close(type='button',value='x')

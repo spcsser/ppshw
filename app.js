@@ -49,9 +49,10 @@ app.configure('development', function(){
 });
 
 var routes = require('./routes')
-  , file = require('./routes/file')
-  , index = require('./routes/index')
-  , adminSettings = require('./routes/admin/settings')
+  , fileRoute = require('./routes/file')
+  , indexRoute = require('./routes/index')
+  , adminSettingsRoute = require('./routes/admin/settings')
+  , showRoute = require('./routes/show')
 ;
 /*
 var sessionTransfer=function(req,res){
@@ -63,17 +64,19 @@ app.get('*',sessionTransfer);
 app.post('*',sessionTransfer);
 */
 app.get('/', routes.index);
-app.post('/file/upload', file.put);
-app.get('/file/get/:type/:digest',file.get);
-app.get('/file/remove/:digest',file.remove);
-app.get('/filetree', index.filetree);
+app.post('/file/upload', fileRoute.put);
+app.get('/file/get/:type/:digest',fileRoute.get);
+app.post('/file/remove',fileRoute.remove);
+app.get('/filetree', indexRoute.filetree);
 
-app.post('/file/addtags', file.addTags);
-app.post('/file/removetags', file.removeTags);
-app.post('/file/settags',file.setTags);
-app.post('/file/gettags',file.getTags);
+app.post('/file/addtags', fileRoute.addTags);
+app.post('/file/removetags', fileRoute.removeTags);
+app.post('/file/settags',fileRoute.setTags);
+app.post('/file/gettags',fileRoute.getTags);
 
-app.get('/admin/settings', adminSettings.index);
+app.get('/admin/settings', adminSettingsRoute.index);
+
+app.get('/show/:digest/:page', showRoute.index);
 
 var server = http.createServer(app)
   , io = require('socket.io').listen(server);

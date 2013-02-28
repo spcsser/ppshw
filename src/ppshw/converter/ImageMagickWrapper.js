@@ -4,43 +4,40 @@
 var convertType
  , config=require(__dirname+'/../system/Config.js')
 ;
-
 var PARAM_CONVERT_PAGE="PARAM_CONVERT_PAGE"
   , PARAM_CONVERT_THUMBNAIL="PARAM_CONVERT_THUMBNAIL"
 ;
 
-var constructor=function(type){
-  var convertType=type;
-};
-
 var getConvertCommand = function(params){
-  if(convertType==PARAM_CONVERT_PAGE){
-    return getPageConvertCommand(paras);
-  }else if(convertType==PARAM_CONVERT_THUMBNAIL){
-    return getThumbnailConvertCommand(paras);
+  if(params.convertType==PARAM_CONVERT_PAGE){
+    return getPageConvertCommand(params);
+  }else if(params.convertType==PARAM_CONVERT_THUMBNAIL){
+    return getThumbnailConvertCommand(params);
+  }else{
+    console.error("Unknown convertType:",params.convertType);
   }
 }
 
 var getPageConvertCommand = function(params) {
-  var inputFile=params.contentPath+paraparams.digest+'.pdf';
-  var outputFile=params.contentPath+'thumb_%d.jpg';
-  var cmd={
-    cmd:ppshw.system.Config.get('ppshw:application:imagemagick:path'),
+  var inputFile=params.contentPath+'/'+params.digest+'.pdf';
+  var outputFile=params.contentPath+'/thumb_%d.jpg';
+  var data={
+    cmd:config.get('ppshw:application:imagemagick:path'),
     //convert -adaptive-resize 100x144 -auto-orient -alpha background -antialias cv-swen_2.pdf thumbnail_%d.jpg
-    params:['-adaptive-resize','100x144','-auto-orient','-alpha background','-antialias',inputFile,outputFile]
+    params:['-adaptive-resize','100x144','-auto-orient','-antialias',inputFile,outputFile]//'-alpha background',
   };
-  return cmd;
+  return data;
 };
 
-var getPreviewConvertCommand = function(params){
-  var inputFile=params.contentPath+paraparams.digest+'.pdf';
-  var outputFile=params.contentPath+'page_%d.jpg';
-  var cmd={
-    cmd:ppshw.system.Config.get('ppshw:application:imagemagick:path'),
+var getThumbnailConvertCommand = function(params){
+  var inputFile=params.contentPath+'/'+params.digest+'.pdf';
+  var outputFile=params.contentPath+'/page_%d.jpg';
+  var data={
+    cmd:config.get('ppshw:application:imagemagick:path'),
     //convert -density 300 -auto-orient -alpha background -antialias cv-swen_2.pdf page_%d.jpg
-    params:['-density','300','-auto-orient','-alpha background','-antialias',inputFile,outputFile]
+    params:['-density','300','-auto-orient','-alpha','background','-antialias',inputFile,outputFile]//'-alpha background',
   };
-  return cmd;
+  return data;
 };
 
 var run=function(process,message){
@@ -48,7 +45,9 @@ var run=function(process,message){
   var exec = require('child_process').execFile
     , child
     , data=getConvertCommand(message.data)
-    , cmd=data.cmd
+  ;
+
+  var cmd=data.cmd
     , params=data.params
     , options={ encoding: 'utf8',
         timeout: 0,
@@ -76,6 +75,9 @@ var run=function(process,message){
   });
 };
 
+exports.constructor=constructor;
+
 exports.run=run;
 
-module.exports=constructor;
+exports.PARAM_CONVERT_PAGE=PARAM_CONVERT_PAGE;
+exports.PARAM_CONVERT_THUMBNAIL=PARAM_CONVERT_THUMBNAIL;

@@ -121,7 +121,8 @@ div#frontpage iframe {
 }
 
 .hidden {
-  visibility: hidden;
+  /*visibility: hidden;*/
+  display: none;
 }
 
 .nosize {

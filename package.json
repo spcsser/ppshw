@@ -21,7 +21,9 @@
     "mongoose": "*",
     "mime": "*",
     "socket.io": "*",
-    "async": "*"
+    "async": "*",
+    "wrench":"*",
+    "underscore":"*"
   },
   "devDependencies": {
   }

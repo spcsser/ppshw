@@ -25,9 +25,9 @@ var FileManager = {
       
       File.findOne({'digest':digest},function(err, file){
         if(file!==null){
-//          file.creationDate=Date.now;
-//          file.filename.full=filename;
-//          file.save();
+          //file.creationDate=Date.now;
+          file.filename.full=filename;
+          file.save();
         }else{
           file=new File({digest:digest, filename:{full:filename}, type:'doc'});
           file.save();
@@ -48,16 +48,16 @@ var FileManager = {
         fs.rename(filepath,new_path);
         if(this.isConvertableFile(ext)){
           //let's create a pdf
-          this.createPdf(content_path,new_path,new_filename);
-          this.createImages(content_path,digest);
+          this.createPdf(content_path,new_path,new_filename,digest);
+          //this.createImages(content_path,digest);
         }
       }
     },
-    createPdf:function(content_path, new_path, filename){
-      ppshw.converter.ConverterHandler.createPdf(content_path, new_path, filename);
+    createPdf:function(content_path, new_path, filename,digest){
+      ppshw.converter.ConverterHandler.createPdf(content_path, new_path, filename,digest);
     },
     createImages:function(content_path,digest){
-      ppshw.converter.ConverterHandler.createImages(content_path,digest);
+      ppshw.converter.ConverterHandler.createImages(content_path, digest);
     },
     isPdfFile : function(ext){
       return ext==='pdf';
@@ -86,7 +86,6 @@ var FileManager = {
       }
     },
     addTask : function(data, runner, callback) {
-      console.log(runner);
       var id = FileManager.taskId++;
       FileManager.tasks[id] = callback;
       FileManager.child.send({id: id, data: data, runner: runner});
