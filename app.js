@@ -66,7 +66,9 @@ app.post('*',sessionTransfer);
 
 app.get('/', routes.index);
 app.post('/file/upload', fileRoute.put);
-app.get('/file/get/:type/:digest',fileRoute.get);
+app.get('/file/get/:type/:digest',fileRoute.getDocument);
+app.get('/file/getPage/:digest/:page',fileRoute.getPage);
+app.get('/file/getThumbnail/:digest/:page',fileRoute.getThumbnail);
 app.post('/file/remove',fileRoute.remove);
 app.get('/filetree', indexRoute.filetree);
 

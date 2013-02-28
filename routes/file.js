@@ -6,6 +6,12 @@ var fs=require('fs')
   , wrench = require('wrench')
 ;
 
+var GETTYPE_FILE="FILE",
+  GETTYPE_PAGE="PAGE",
+  GETTYPE_THUMBNAIL="THUMBNAIL"
+;
+ 
+
 exports.put=function(req,res){
     var files=req.files;
     var uploadfile=files['upload']['file'];
@@ -19,19 +25,47 @@ exports.put=function(req,res){
     res.send('Done');
 };
 
-var getPath = function(digest,filetype){
-  var dir=ppshw.system.Config.get('ppshw:application:upload:dir');
-  
-  return dir + digest + '_cnt/' + ( filetype===undefined ? '' : digest + '.' + filetype );
+var getPath = function(digest,filetype, pageNo, type){
+  var dir=ppshw.system.Config.get('ppshw:application:upload:dir')
+    , filename=""
+  ;
+  if(type==GETTYPE_FILE){
+    filename= digest + '.' + filetype;
+  }else if(type==GETTYPE_PAGE){
+    filename='page_'+pageNo+'.jpg';
+  }else if(type==GETTYPE_THUMBNAIL){
+    filename= 'thumb_'+pageNo+'.jpg';
+  }
+  return dir + digest + '_cnt/' + filename;
 };
 
-exports.get=function(req,res){
-  var digest=req.body.digest
-    , filetype=req.body.type
+exports.getDocument=function(req,res){
+  get(req,res,GETTYPE_FILE);
+};
+
+exports.getPage=function(req,res){
+  get(req,res,GETTYPE_PAGE);
+};
+
+exports.getThumbnail=function(req,res){
+  get(req,res,GETTYPE_THUMBNAIL);
+};
+
+var getFileType=function(req,type){
+  return req.params.type !== undefined ? req.params.type : 'jpg';
+};
+
+var getPageNo=function(req){
+  return req.params.page;
+};
+
+var get=function(req,res,type){
+  var digest=req.params.digest
+    , filetype=getFileType(req,type)
+    , pageNo=getPageNo(req)
   ;
-  
-  path=getPath(digest, filetype);
-  
+  path=getPath(digest, filetype, pageNo, type);
+  console.info(path);
   File.findOne({'digest':digest}).exec(function(err,file){
     if(err){
       res.status(500).send('Internal server error.');
@@ -44,6 +78,10 @@ exports.get=function(req,res){
     }else{
       var filename=file.filename.name;
       var stat = fs.statSync(path);
+      
+      if(pageNo!==undefined){
+        filename+='_0';
+      }
     
       res.set({
         'Content-Type':mime.lookup(filetype),
