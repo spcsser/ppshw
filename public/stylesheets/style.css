@@ -138,3 +138,11 @@ div#frontpage iframe {
   top: 100px;
   z-index: 999;
 }
+
+ul.ft_l2.collapsed {
+  display: none;
+}
+
+.listExpandControl {
+  cursor: pointer;
+}

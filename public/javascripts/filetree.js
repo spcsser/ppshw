@@ -36,8 +36,11 @@ FileTree={
       if(data!=null && data.tags!=null){
         val=data.tags;
       }
-      editor.find('input#editor_input').val(val);      
+      //set values and make editor visible
+      var input=editor.find('input#editor_input');
+      input.val(val);
       editor.removeClass('hidden').offset(elem.offset());
+      input.focus();
     });
     
     var submitHandler=function(e){
@@ -75,20 +78,37 @@ FileTree={
   initLinks:function(){
     this.getBaseUrl();
     $('.ft_l2_entry.type_doc')
-      .live('click',function(e){
-        FileTree.openDocument($(this).attr('id'));
-      })
+      .live(
+        'click',
+        function(e){
+          FileTree.openDocument($(this).attr('id'));
+        }
+      )
       .find('.tagBtn')
-      .live('click', function(e){
-        e.stopPropagation();
-        FileTree.showTagMenu($(this).closest('li'));
-      })
+      .live(
+        'click',
+        function(e){
+          e.stopPropagation();
+          FileTree.showTagMenu($(this).closest('li'));
+        }
+      )
     ;
-    $('.ft_l2_entry.type_pad')
-      .live('click',function(e){
+    $('.ft_l2_entry.type_pad').live('click',function(e){
         FileTree.openPad($(this));
-      })
-    ;
+    });
+    $('.listExpandControl').live('click',function(e){
+      var elem=$(this);
+      var listElem=elem.closest('.ft_l1_entry').find('.ft_l2');
+      if(listElem.hasClass('collapsed')){
+        //expand list
+        listElem.fadeIn('fast').removeClass('collapsed');
+        elem.text(" [-] ");
+      }else{
+        //collapse list
+        listElem.fadeOut('fast').addClass('collapsed');
+        elem.text(" [+] ");
+      }
+    });
   },
   updateTree: function(){
     //refresh file tree
