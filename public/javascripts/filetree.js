@@ -110,11 +110,16 @@ FileTree={
       }
     });
   },
+  updateTreeInProgress: false,
   updateTree: function(){
     //refresh file tree
-    $.get('/filetree', function(data,textStatus,jqXHR){
-      $('#filetree').html(data);
-    },'html');
+    if(!FileTree.updateTreeInProgress){
+      FileTree.updateTreeInProgress=true;
+      $.get('/filetree', function(data,textStatus,jqXHR){
+        $('#filetree').html(data);
+        FileTree.updateTreeInProgress=false;
+      },'html');
+    }
   }
 };
 

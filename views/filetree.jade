@@ -6,17 +6,20 @@ each val, key in tagsandfiles
       ul.ft_l2.collapsed
         each doc in val
           li(class='ft_l2_entry type_doc ftype_16_' + doc.type,id=doc.digest)
-            span #{doc.name} 
-            span.tagBtn [o] 
+            span  #{doc.name} 
+            span (
+              span.pageCount #{doc.pageCount}
+              ) 
+            span.tagBtn  [o] 
 each val, key in etherpads
   ul.ft_l1
     li.ft_l1_entry
-      span #{val.name}
-      span.listExpandControl [+]
+      span  #{val.name}
+      span.listExpandControl  [+]
       ul.ft_l2.collapsed
         if val.pads
           each pad in val.pads
             li(class='ft_l2_entry type_pad ftype_16_pad')
               a(href=val.url+"/p/"+pad,class='padlink')
-              span #{pad}
-              span.tagBtn [o]
+              span  #{pad}
+              span.tagBtn  [o]

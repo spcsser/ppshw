@@ -71,7 +71,7 @@ var run=function(process,message){
    }
   );
   child.on('exit',function(code,signal){
-    process.send({id: message.id, data: 'Converting to images'});
+    process.send({id: message.id, data: {msg:'Converting to images'}});
   });
 };
 

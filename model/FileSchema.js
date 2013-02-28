@@ -24,7 +24,8 @@ var FileSchema=new Schema({
   predecessor_id: {type: Schema.ObjectId, ref: 'File'},
   creationDate: {'type': Date, 'default': Date.now},
   url: String,
-  type: String
+  type: String,
+  pageCount: Number
 });
 
 FileSchema.virtual('filename.full').get(function(){

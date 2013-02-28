@@ -42,7 +42,7 @@ var run=function(process,message){
    }
   );
   child.on('exit',function(code,signal){
-    process.send({id: message.id, data: 'Converting to pdf'});
+    process.send({id: message.id, data: {msg:'Converting to pdf'}});
   });
 };
 
