@@ -67,5 +67,8 @@ hotnode $pathToApp/app.js
 - [ ] Setup the LibreOffice instance to be running as service in background and send conversion requests there (instead of calling/instantiating by upload)
 - [ ] improve layout
 - [ ] -use pdf.js to create preview & page images from pdfs-
-  - [x] came to use imagemagick with ghostscript, the pdf.js solution would have required too much work
-- [ ] Expand / collapse file tree entries
+  - [x] came to use imagemagick with ghostscript, sadly the pdf.js solution would have required too much work
+- [x] Expand / collapse file tree entries
+- [ ] Show pages / thumbnails
+  - [x] Fix thumbnail quality
+- [ ] Save number of pages
