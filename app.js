@@ -63,6 +63,10 @@ var sessionTransfer=function(req,res){
 app.get('*',sessionTransfer);
 app.post('*',sessionTransfer);
 */
+app.head('*',function(req,res){
+  res.send(200);
+});
+
 app.get('/', routes.index);
 app.post('/file/upload', fileRoute.put);
 app.get('/file/get/:type/:digest',fileRoute.get);
