@@ -10,15 +10,58 @@ FileTree={
   openAsPdf:function(){
     return false;
   },
+  getPageCount:function(id){
+    return $('#'+id+' .pageCount').text();
+  },
+  renderPictures:function(id,callback){
+    //clear pagelist
+    var pagelist=$('#pagelist').html("").append('<ul/>').find('ul')
+      , thumbUrl='/file/getThumbnail/'+id+'/'
+      , pageUrl=this.getDocPageUrl(id)
+      , elem=''
+      , pageCount = this.getPageCount(id)
+      , pageClass
+    ;
+    
+    for(var i=0;i<pageCount;i++){
+       pageClass='thumbnail page_'+i;
+       elem='<li class="'+pageClass+'">'
+         + '<a href="' + pageUrl + i + '">'
+         + '<img src="' + thumbUrl + i + '" alt="thumbnail page_' + i + '"/>'
+         + '</a>'
+         + '</li>';
+       pagelist.append(elem);//.find('.'+pageClass+' img').one('load', function() {
+//         $(this).fadeIn();
+//       }).each(function() {
+//         if(this.complete) $(this).load();
+//       });
+    }
+    
+    this.openDocPage(pageUrl+0, 0);
+    
+    if(callback){
+      callback();
+    }
+  },
+  getDocPageUrl:function(id){
+    return '/file/getPage/'+id+'/';
+  },
+  openDocPage:function(pageUrl,pageNo){
+    //clear pages
+    var showPage=$('#frontpage').html("");
+    showPage.append('<div class="page page_'+pageNo+'"><img src="'+pageUrl+'" alt="page_'+pageNo+'"/></div>');
+  },
   openDocument:function(id){
     if(this.openAsPdf()){
       $('div#pagelist').addClass('hidden');
       $('div#pages').addClass('hidden');
       $('div#fp_ifr').removeClass('hidden').attr('src','/pdf.js/viewer.html?file='+this.getBaseUrl()+'file/get/pdf/'+id);
     }else{
-      $('div#fp_ifr').addClass('hidden');
-      $('div#pagelist').removeClass('hidden');
-      $('div#pages').removeClass('hidden');
+      this.renderPictures(id,function(){
+        $('div#fp_ifr').addClass('hidden');
+        $('div#pagelist').removeClass('hidden');
+        $('div#pages').removeClass('hidden');
+      });
     }
   },
   openPad:function(elem){
@@ -108,6 +151,18 @@ FileTree={
         listElem.fadeOut('fast').addClass('collapsed');
         elem.text(" [+] ");
       }
+    });
+    $('.thumbnail a').live('click',function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var pageUrl=$(this).attr('href');
+      var pageNo=pageUrl.match(/\/(\d+)$/);
+      if(pageNo != null && pageNo.length==2){
+        pageNo=pageNo[1];
+      }else{
+        pageNo=0;
+      }
+      FileTree.openDocPage(pageUrl,pageNo);
     });
   },
   updateTreeInProgress: false,

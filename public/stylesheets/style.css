@@ -111,13 +111,14 @@ div#pagelist {
 }
 
 div#frontpage {
-  float: left;
+  height:100%;
+  position:relative;
 }
 
-div#frontpage iframe {
-  width:60%;
-  height:80%;
-  position:absolute;
+div#frontpage #fp_ifr {
+  width:99%;
+  height:98%;
+  position:relative;
 }
 
 .hidden {
@@ -145,4 +146,8 @@ ul.ft_l2.collapsed {
 
 .listExpandControl {
   cursor: pointer;
+}
+
+.page img {
+	width: 100%
 }
