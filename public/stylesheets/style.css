@@ -98,6 +98,8 @@ div#pagelist {
   float: left;
   height: 100%;
   width: 130px;
+  background: gray;
+  text-align: center;
 }
 
 #pagelist ul {
@@ -105,9 +107,8 @@ div#pagelist {
   margin: 0;
 }
 
-.pl_page img {
+.thumbnail img {
   width:100px;
-  height:122px;
 }
 
 div#frontpage {
@@ -148,6 +149,11 @@ ul.ft_l2.collapsed {
   cursor: pointer;
 }
 
+.page {
+  background: none repeat scroll 0 0 lightgray;
+  text-align: center;
+}
+
 .page img {
-	width: 100%
+	width: 80%;
 }

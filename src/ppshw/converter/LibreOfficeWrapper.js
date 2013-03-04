@@ -7,7 +7,7 @@ var config=require(__dirname+'/../system/Config.js')
 var getConvertCommand = function(params) {
       var cmd={
         cmd:config.get('ppshw:application:office:path'),
-        params:['--headless','--convert-to','pdf','"'+params.inputfile+'"','--outdir','"'+params.outputpath+'"']
+        params:['--headless','--invisible','--convert-to','pdf','"'+params.inputfile+'"','--outdir','"'+params.outputpath+'"']
       };
       
       return cmd;

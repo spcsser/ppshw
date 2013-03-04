@@ -65,35 +65,32 @@ var get=function(req,res,type){
     , pageNo=getPageNo(req)
   ;
   path=getPath(digest, filetype, pageNo, type);
-  console.info(path);
-  File.findOne({'digest':digest}).exec(function(err,file){
+  /*File.findOne({'digest':digest}).exec(function(err,file){
     if(err){
       res.status(500).send('Internal server error.');
-      return;
     }else if(file==null){
-      res.status(404).send('File not found in database.');
-      return;
-    }else if(!fs.existsSync(path)){
+      res.status(403).send('File not found in database.');
+    }else */if(!fs.existsSync(path)){
       res.status(404).send('File not found');
     }else{
-      var filename=file.filename.name;
+      //var filename=file.filename.name;
       var stat = fs.statSync(path);
       
-      if(pageNo!==undefined){
-        filename+='_0';
-      }
+//      if(pageNo===undefined){
+//        filename+='_0';
+//      }
     
       res.set({
-        'Content-Type':mime.lookup(filetype),
-        'Content-Length':stat.size,
-        'Content-Disposition': 'inline; filename="'+filename+'.'+filetype+'"'
+        'Content-Type' : mime.lookup(filetype),
+        'Content-Length' : stat.size,
+//        'Content-Disposition' : 'inline; filename="'+filename+'.'+filetype+'"'
       });
     
       var readStream = fs.createReadStream(path);
       // We replaced all the event handlers with a simple call to util.pump()
       util.pump(readStream, res);
     }
-  });
+//  });
 };
 
 exports.remove = function(req,res){

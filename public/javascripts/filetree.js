@@ -15,26 +15,21 @@ FileTree={
   },
   renderPictures:function(id,callback){
     //clear pagelist
-    var pagelist=$('#pagelist').html("").append('<ul/>').find('ul')
+    var pagelist=$('#pagelist').html("").append('<ul></ul>').find('ul')
       , thumbUrl='/file/getThumbnail/'+id+'/'
       , pageUrl=this.getDocPageUrl(id)
       , elem=''
       , pageCount = this.getPageCount(id)
-      , pageClass
+      , pageClass = ''
     ;
     
     for(var i=0;i<pageCount;i++){
-       pageClass='thumbnail page_'+i;
-       elem='<li class="'+pageClass+'">'
-         + '<a href="' + pageUrl + i + '">'
-         + '<img src="' + thumbUrl + i + '" alt="thumbnail page_' + i + '"/>'
-         + '</a>'
-         + '</li>';
-       pagelist.append(elem);//.find('.'+pageClass+' img').one('load', function() {
-//         $(this).fadeIn();
-//       }).each(function() {
-//         if(this.complete) $(this).load();
-//       });
+         pageClass='thumbnail page_'+i;
+         pagelist.append('<li class="'+pageClass+'">'
+           + '<a href="' + pageUrl + i + '">'
+           + '<img src="' + thumbUrl + i + '" alt="thumbnail page_' + i + '"/>'
+           + '</a>'
+           + '</li>');
     }
     
     this.openDocPage(pageUrl+0, 0);
